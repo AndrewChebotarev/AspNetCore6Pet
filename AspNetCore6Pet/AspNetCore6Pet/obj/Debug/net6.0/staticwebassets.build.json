@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "RTveATiRfljLOyUXw3f8yVMVZUd+UNm6ZMrDd58t9CE=",
+  "Source": "AspNetCore6Pet",
+  "BasePath": "_content/AspNetCore6Pet",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
