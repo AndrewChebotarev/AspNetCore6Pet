@@ -1,0 +1,14 @@
+Good afternoon, dear visitor. This repository was made as a project showing my skills when working with ASP NET Framework Core 6.
+In this project, a web application was made in which there are two roles of an observer and an administrator.
+If you are an observer, then you can simply look at what films are available at the box office and their price.
+If you are an administrator, you can enter films and their prices into the cinema. Also at the administrator, obligatory authorization.
+Entity Framework, MS sql server was used.
+Thank you for watching).
+
+
+Добрый день, уважаемый посититель. Данный репозиторий был сделан, как проект показывающий, мое умение при работе с ASP NET Framework Core 6.
+В данном проекте, сделано веб-приложение, в котором есть две роли наблюдатель и администратор.
+Если вы наблюдатель то вы просто можете посмотреть, какие есть фильмы в прокате и их цену.
+Если в администратор, вы можете вносить в кинотеатр фильмы и их цену. Так же у администратора, обезательная авторизация.
+Был использован Entity Framework, MS sql server.
+Спасибо за просмотр).
