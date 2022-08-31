@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Кинотеатр</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../src/css/StyleSheet.min.css" />
+</head>
+<body>
+    <h1 class="marginAndCenter">Список кино в прокате </h1>
+    <form name="filmForm">
+        <input type="hidden" name="id" value="0" />
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <label class="form-label" for="nameFilm"><span class="boldText">Название фильма</span></label>
+                <input class="form-control" name="nameFilm" />
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <label for="ticketPrice" class="form-label"><span class="boldText">Стоимость билета</span></label>
+                <input class="form-control" name="ticketPrice" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="marginForButton">
+                <button type="submit" class="btn btn-secondary btn-sm btn-primary">Сохранить</button>
+            </div>
+            <div class="marginForButton">
+                <a id="reset" class="btn btn-secondary btn-sm btn-primary">Сбросить</a>
+            </div>
+        </div>
+    </form>
+    <div class="tableMargin">
+        <table class="table table-condensed table-striped table-bordered">
+            <thead><tr><th class="textCenter">Название фильма</th><th class="textCenter">Стоимость</th><th></th></tr></thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <form method="post">
+            <div>
+                <button name="HomefromUser" type="submit" class="btn btn-secondary btn-sm btn-primary">На главную страницу</button><br /><br />
+            </div>
+        </form>
+    </div>
+    <script>
+
+        async function getUsers() {
+            const response = await fetch("/api/films", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok) {
+                const films = await response.json();
+                const rows = document.querySelector("tbody");
+
+                films.forEach(film => rows.append(row(film)));
+            }
+        }
+        // Получение одного пользователя
+        async function getUser(id) {
+            const response = await fetch("/api/films/" + id, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok) {
+                const film = await response.json();
+                const films = document.forms["filmForm"];
+                films.elements["id"].value = film.id;
+                films.elements["nameFilm"].value = film.nameFilm;
+                films.elements["ticketPrice"].value = film.ticketPrice;
+            }
+            else {
+                // если произошла ошибка, получаем сообщение об ошибке
+                const error = await response.json();
+                console.log(error.message); // и выводим его на консоль
+            }
+        }
+        // Добавление пользователя
+        async function createUser(FilmName, priceTicket) {
+
+            const response = await fetch("api/films", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nameFilm: FilmName,
+                    ticketPrice: parseInt(priceTicket, 10)
+                })
+            });
+            if (response.ok === true) {
+                const film = await response.json();
+                reset();
+                document.querySelector("tbody").append(row(film));
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        // Изменение пользователя
+        async function editUser(filmId, filmName, priceTicket) {
+            const response = await fetch("api/films", {
+                method: "PUT",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: filmId,
+                    nameFilm: filmName,
+                    ticketPrice: parseInt(priceTicket, 10)
+                })
+            });
+            if (response.ok) {
+                const film = await response.json();
+                reset();
+                document.querySelector("tr[data-rowid='" + film.id + "']").replaceWith(row(film));
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+        // Удаление пользователя
+        async function deleteUser(id) {
+            const response = await fetch("/api/films/" + id, {
+                method: "DELETE",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok) {
+                const film = await response.json();
+                document.querySelector("tr[data-rowid='" + film.id + "']").remove();
+            }
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+        // сброс данных формы после отправки
+        function reset() {
+            const form = document.forms["filmForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+        // создание строки для таблицы
+        function row(film) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", film.id);
+
+            const nameTd = document.createElement("td");
+            nameTd.setAttribute("style", "text-align: center;");
+            nameTd.append(film.nameFilm);
+            tr.append(nameTd);
+
+            const ageTd = document.createElement("td");
+            ageTd.append(film.ticketPrice);
+            ageTd.setAttribute("style", "text-align: center;");
+            tr.append(ageTd);
+
+            const linksTd = document.createElement("td");
+            linksTd.setAttribute("style", "text-align: center;")
+
+            const editLink = document.createElement("a");
+            editLink.setAttribute("style", "cursor:pointer;");
+            editLink.append("Изменить");
+            editLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                getUser(film.id);
+            });
+            linksTd.append(editLink);
+
+            const removeLink = document.createElement("a");
+            removeLink.setAttribute("style", "cursor:pointer;padding-left:100px;padding-right:50px;");
+            removeLink.append("Удалить");
+            removeLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                deleteUser(film.id);
+            });
+
+            linksTd.append(removeLink);
+            tr.appendChild(linksTd);
+
+            return tr;
+        }
+        // сброс значений формы
+        document.getElementById("reset").addEventListener("click", e => {
+
+            e.preventDefault();
+            reset();
+        })
+
+        // отправка формы
+        document.forms["filmForm"].addEventListener("submit", e => {
+            e.preventDefault();
+            const form = document.forms["filmForm"];
+            const id = form.elements["id"].value;
+            const nameFilm = form.elements["nameFilm"].value;
+            const ticketPrice = form.elements["ticketPrice"].value;
+            if (id == 0)
+                createUser(nameFilm, ticketPrice);
+            else
+                editUser(id, nameFilm, ticketPrice);
+        });
+
+        // загрузка пользователей
+        getUsers();
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Кинотеатр</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../src/css/StyleForAllPage.min.css" />
+</head>
+<body>
+    <h1 class="MarginAndCenterForHeader">Список кино в прокате </h1>
+    <form name="filmForm">
+        <input type="hidden" name="id" value="0" />
+    </form>
+    <div class="TableMargin">
+        <table class="table table-condensed table-striped table-bordered">
+            <thead><tr><th class="TextCenter">Название фильма</th><th class="TextCenter">Стоимость</th></tr></thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <form method="post">
+        <div class="col text-center">
+            <button name="HomefromUser" type="submit" class="btn btn-secondary btn-sm btn-primary">На главную страницу</button>
+        </div>
+    </form>
+    <script>
+        async function getFilms() {
+
+            const response = await fetch("/api/films", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok) {
+                const films = await response.json();
+                const rows = document.querySelector("tbody");
+
+                films.forEach(film => rows.append(row(film)));
+            }
+        }
+
+
+        async function getFilm(id) {
+
+            const response = await fetch("/api/films/" + id, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok) {
+                const film = await response.json();
+                const films = document.forms["filmForm"];
+
+                films.elements["id"].value = film.id;
+                films.elements["nameFilm"].value = film.nameFilm;
+                films.elements["ticketPrice"].value = film.ticketPrice;
+            }
+
+            else {
+                const error = await response.json();
+                console.log(error.message);
+            }
+        }
+
+
+        function row(film) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", film.id);
+
+            const filmName = document.createElement("td");
+            filmName.setAttribute("style", "text-align: center;");
+            filmName.append(film.nameFilm);
+            tr.append(filmName);
+
+            const ticketPrice = document.createElement("td");
+            ticketPrice.append(film.ticketPrice);
+            ticketPrice.setAttribute("style", "text-align: center;");
+            tr.append(ticketPrice);
+
+            return tr;
+        }
+
+        getFilms();
+    </script>
+</body>
+</html>

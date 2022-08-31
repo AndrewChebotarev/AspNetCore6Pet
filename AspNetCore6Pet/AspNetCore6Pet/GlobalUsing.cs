@@ -1,3 +1,13 @@
 ﻿global using AspNetCore6Pet.Data; 
 global using System.Text.RegularExpressions;
-global using AspNetCore6Pet.AllTask;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Authentication.Cookies;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authorization;
+global using AspNetCore6Pet.EntityFramework;
+global using AspNetCore6Pet.Middleware.MiddlewareForFilm;
+global using AspNetCore6Pet.Middleware.MiddlewareForPage;
+global using Microsoft.AspNetCore.Builder;
+global using AspNetCore6Pet.Middleware;
+global using Microsoft.Extensions.Primitives;

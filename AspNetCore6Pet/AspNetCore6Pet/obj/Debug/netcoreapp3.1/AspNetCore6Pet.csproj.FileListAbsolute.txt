@@ -1,0 +1,6 @@
+D:\ProgramInfo\AspNetCore6Pet\AspNetCore6Pet\AspNetCore6Pet\obj\Debug\netcoreapp3.1\AspNetCore6Pet.csproj.AssemblyReference.cache
+D:\ProgramInfo\AspNetCore6Pet\AspNetCore6Pet\AspNetCore6Pet\obj\Debug\netcoreapp3.1\AspNetCore6Pet.GeneratedMSBuildEditorConfig.editorconfig
+D:\ProgramInfo\AspNetCore6Pet\AspNetCore6Pet\AspNetCore6Pet\obj\Debug\netcoreapp3.1\AspNetCore6Pet.AssemblyInfoInputs.cache
+D:\ProgramInfo\AspNetCore6Pet\AspNetCore6Pet\AspNetCore6Pet\obj\Debug\netcoreapp3.1\AspNetCore6Pet.AssemblyInfo.cs
+D:\ProgramInfo\AspNetCore6Pet\AspNetCore6Pet\AspNetCore6Pet\obj\Debug\netcoreapp3.1\AspNetCore6Pet.csproj.CoreCompileInputs.cache
+D:\ProgramInfo\AspNetCore6Pet\AspNetCore6Pet\AspNetCore6Pet\obj\Debug\netcoreapp3.1\AspNetCore6Pet.MvcApplicationPartsAssemblyInfo.cache
